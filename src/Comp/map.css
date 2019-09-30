@@ -17,14 +17,22 @@
     width:30px; 
 }
 
- .infoWindow{
+ .info-window{
      text-align: center; 
      background: #aadaff;
      padding: 10px;
      margin: 0 6px 0px 0;  
  }
 
- .infoWindow img {
+ .info-window img {
      padding-top: 30px; 
      padding-bottom: 10px; 
+ }
+
+ .info-window__sun-details{
+     color: grey; 
+ }
+ .info-window__sun-details:first-child::after{
+    content: "|"; 
+    padding: 0 10px;;
  }

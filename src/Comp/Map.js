@@ -25,8 +25,7 @@ export default class Map extends Component{
             zoomMap: 5, 
             mapData :null, 
             timeZoneId: null, 
-            timeZone: null, 
-            isDay: null
+            timeZone: null
         }
 
         this.onInfoWindowClose = this.onInfoWindowClose.bind(this);
@@ -35,7 +34,6 @@ export default class Map extends Component{
         this.getTimezoneIdFromCoordinates = this.getTimezoneIdFromCoordinates.bind(this);
         this.setTimeZone = this.setTimeZone.bind(this);
         this.getCityFromTimezoneId = this.getCityFromTimezoneId.bind(this);
-        
     }
  
 
@@ -109,48 +107,47 @@ export default class Map extends Component{
         const sunriseDateTime = moment(dateText + sunrise)
         const sunsetDateTime = moment(dateText + sunset)
         const currentDateTime = moment(dateText + time)
+        const town = this.getCityFromTimezoneId(this.state.timeZoneId); 
 
         if (currentDateTime.isAfter(sunriseDateTime) && currentDateTime.isBefore(sunsetDateTime)) {
-            this.setState({
-                isDay: true
-            }); 
-            return "Good day"
+            return (
+                <React.Fragment>
+                    <img src={sun}/>  
+                    <h1> Good day , {town} </h1>
+                </React.Fragment>
+            )
         }else{
-            this.setState({
-                isDay: false
-            }); 
-            return "Good night"
+            return(
+                <React.Fragment>
+                    <img src={moon}/>  
+                    <h1> Good evening , {town} </h1>
+                </React.Fragment>
+            )
         }
     }
 
     render() {
-       
+       const {timeZone, timeZoneId, latitude, longitude, zoomMap, mapCenter, mapData} = this.state; 
         return(
             <GoogleMap 
                 google = {this.props.google}
-                defaultZoom ={this.state.zoomMap} 
-                defaultCenter = {this.state.mapCenter}
+                defaultZoom ={zoomMap} 
+                defaultCenter = {mapCenter}
                 onClick= {this.onHandleCoordinate} 
-                latitude = {this.state.latitude}
-                longitude = {this.state.longitude}
+                latitude = {latitude}
+                longitude = {longitude}
             >
-              { (this.state.mapData) && 
-
-                <InfoWindow  onCloseClick={this.onInfoWindowClose} position={{lat: this.state.latitude, lng: this.state.longitude}}>
-                    <div className="infoWindow" >
-                        {(this.state.isDay)} <img src={sun}/>  
-                        {/* <img src={moon}/>  */}
-                        <h1 style={{textAlign: "center"}}>{this.greetingMessage(this.state.mapData.sunrise,this.state.mapData.sunset, this.state.timeZone )} ,  {this.getCityFromTimezoneId(this.state.timeZoneId)}</h1>
-                        <p> Time in  {this.getCityFromTimezoneId(this.state.timeZoneId)}: {this.state.timeZone} </p>
-                        <p> sunrise: {this.state.mapData.sunrise} | sunset: {this.state.mapData.sunset} </p>
-                       
+              { (mapData) && 
+                <InfoWindow  onCloseClick={this.onInfoWindowClose} position={{lat: latitude, lng: longitude}}>
+                    <div className="info-window" >
+                        {this.greetingMessage(mapData.sunrise, mapData.sunset, timeZone )} 
+                        <p> Time in  {this.getCityFromTimezoneId(timeZoneId)}: {timeZone} </p>
+                        <p> <span className="info-window__sun-details">sunrise: {mapData.sunrise} </span> <span className="info-window__sun-details"> sunset: {mapData.sunset} </span> </p>
                     </div>
-                  
                 </InfoWindow>
              }
-        
-              </GoogleMap>
-          ) 
+            </GoogleMap>
+        ) 
     }
     
   }
