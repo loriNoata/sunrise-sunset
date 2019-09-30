@@ -88,18 +88,23 @@ export default class Map extends Component{
     }
  
     setTimeZone(timeZoneId) {
-        let d = new Date();
-        const formatedTimeZone = moment(d).tz(timeZoneId).format('h:mm:ss A');  
-        this.setState({
-            timeZone: formatedTimeZone
-        })
-        return formatedTimeZone
+        if (timeZoneId) {
+            let d = new Date();
+            const formatedTimeZone = moment(d).tz(timeZoneId).format('h:mm:ss A');  
+            this.setState({
+                timeZone: formatedTimeZone
+            })
+            return formatedTimeZone
+        }
     }
 
     getCityFromTimezoneId(timeZoneId){
-        const term= '/';
-        const indexOfTerm = parseInt(timeZoneId.indexOf(term));
-        return timeZoneId.slice(indexOfTerm+1)
+        if (timeZoneId) {
+            const term= '/';
+            const indexOfTerm = parseInt(timeZoneId.indexOf(term));
+            return timeZoneId.slice(indexOfTerm+1)
+        }
+       
     }
 
     greetingMessage(sunrise, sunset, time) {
@@ -107,20 +112,20 @@ export default class Map extends Component{
         const sunriseDateTime = moment(dateText + sunrise)
         const sunsetDateTime = moment(dateText + sunset)
         const currentDateTime = moment(dateText + time)
-        const town = this.getCityFromTimezoneId(this.state.timeZoneId); 
+        const town = this.getCityFromTimezoneId(this.state.timeZoneId) || 'ocean'; 
 
         if (currentDateTime.isAfter(sunriseDateTime) && currentDateTime.isBefore(sunsetDateTime)) {
             return (
                 <React.Fragment>
                     <img src={sun}/>  
-                    <h1> Good day, {town} !</h1>
+                   <h1> Good day, {town} !</h1> 
                 </React.Fragment>
             )
         }else{
             return(
                 <React.Fragment>
                     <img src={moon}/>  
-                    <h1> Good evening, {town} !</h1>
+                     <h1> Good evening, {town} !</h1> 
                 </React.Fragment>
             )
         }
