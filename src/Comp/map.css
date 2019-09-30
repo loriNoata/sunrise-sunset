@@ -1,0 +1,30 @@
+ 
+
+.gm-style-iw.gm-style-iw-c, 
+.gm-style-iw-d {
+    width: 40vw; 
+    height: 36vh;
+    max-height: 50vh;
+ 
+}
+
+
+ 
+
+.gm-style-iw-t  div.gm-style-iw-t::after {
+    display:block;
+    background: linear-gradient(45deg,rgb(231, 121, 121) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%)!important; 
+    width:30px; 
+}
+
+ .infoWindow{
+     text-align: center; 
+     background: #aadaff;
+     padding: 10px;
+     margin: 0 6px 0px 0;  
+ }
+
+ .infoWindow img {
+     padding-top: 30px; 
+     padding-bottom: 10px; 
+ }
