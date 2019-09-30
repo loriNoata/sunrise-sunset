@@ -113,21 +113,22 @@ export default class Map extends Component{
             return (
                 <React.Fragment>
                     <img src={sun}/>  
-                    <h1> Good day , {town} </h1>
+                    <h1> Good day, {town} !</h1>
                 </React.Fragment>
             )
         }else{
             return(
                 <React.Fragment>
                     <img src={moon}/>  
-                    <h1> Good evening , {town} </h1>
+                    <h1> Good evening, {town} !</h1>
                 </React.Fragment>
             )
         }
     }
 
     render() {
-       const {timeZone, timeZoneId, latitude, longitude, zoomMap, mapCenter, mapData} = this.state; 
+        const {timeZone, latitude, longitude, zoomMap, mapCenter, mapData} = this.state; 
+
         return(
             <GoogleMap 
                 google = {this.props.google}
@@ -140,9 +141,11 @@ export default class Map extends Component{
               { (mapData) && 
                 <InfoWindow  onCloseClick={this.onInfoWindowClose} position={{lat: latitude, lng: longitude}}>
                     <div className="info-window" >
-                        {this.greetingMessage(mapData.sunrise, mapData.sunset, timeZone )} 
-                        <p> Time in  {this.getCityFromTimezoneId(timeZoneId)}: {timeZone} </p>
-                        <p> <span className="info-window__sun-details">sunrise: {mapData.sunrise} </span> <span className="info-window__sun-details"> sunset: {mapData.sunset} </span> </p>
+                        {this.greetingMessage(mapData.sunrise, mapData.sunset, timeZone)} 
+                        <h3>  {timeZone} </h3>
+                        <p> <span className="info-window__sun-details"> sunrise: {mapData.sunrise} </span> 
+                            <span className="info-window__sun-details"> sunset: {mapData.sunset}  </span>
+                        </p>
                     </div>
                 </InfoWindow>
              }
